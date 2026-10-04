@@ -5,12 +5,15 @@ const listeNoms = [
   "Papageï",
   "Vogel",
   "JustUltra (Yacine)",
-  "Ztravaa"
+  "Ztravaa",
+  "Didi"
 ];
 
+// Récupération des éléments HTML
 const btnGenerer = document.getElementById("btnGenerer");
 const nomAffiche = document.getElementById("nomAffiche");
 
+// Événement au clic
 btnGenerer.addEventListener("click", function() {
   const indexAleatoire = Math.floor(Math.random() * listeNoms.length);
   nomAffiche.innerText = listeNoms[indexAleatoire];
