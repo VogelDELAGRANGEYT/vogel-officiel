@@ -4,30 +4,221 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vogel Officiel</title>
-  <link rel="stylesheet" href="style.css">
+  
+  <!-- Chargement de la police Lato -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f4f5f9;
+      --card-bg: #ffffff;
+      --text-color: #212121;
+      --primary-color: #5C6BC0;
+      --primary-dark: #4A55A2;
+      --border-color: #ddd;
+      --custom-font: 'Lato', sans-serif;
+    }
+
+    /* Mode sombre automatique basé sur le système */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --primary-color: #7986cb;
+        --primary-dark: #5c6bc0;
+        --border-color: #333333;
+      }
+    }
+
+    /* Thèmes prédéfinis */
+    [data-theme="blanc"] { --bg-color: #ffffff; --card-bg: #f5f5f5; --text-color: #111; --primary-color: #444; --primary-dark: #111; }
+    [data-theme="noir"] { --bg-color: #0d0d0d; --card-bg: #1a1a1a; --text-color: #eee; --primary-color: #555; --primary-dark: #333; }
+    [data-theme="rouge"] { --bg-color: #ffebee; --card-bg: #ffffff; --text-color: #212121; --primary-color: #e53935; --primary-dark: #c62828; }
+    [data-theme="orange"] { --bg-color: #fff3e0; --card-bg: #ffffff; --text-color: #212121; --primary-color: #fb8c00; --primary-dark: #ef6c00; }
+    [data-theme="or"] { --bg-color: #fffde7; --card-bg: #ffffff; --text-color: #212121; --primary-color: #d4af37; --primary-dark: #aa8c2c; }
+    [data-theme="beige"] { --bg-color: #f5f5dc; --card-bg: #ffffff; --text-color: #212121; --primary-color: #8b8b7a; --primary-dark: #6e6e61; }
+    [data-theme="jaune"] { --bg-color: #fffde7; --card-bg: #ffffff; --text-color: #212121; --primary-color: #fdd835; --primary-dark: #fbc02d; }
+    [data-theme="citron"] { --bg-color: #f4ff81; --card-bg: #ffffff; --text-color: #212121; --primary-color: #c0ca33; --primary-dark: #afb42b; }
+    [data-theme="olive"] { --bg-color: #f0f4c3; --card-bg: #ffffff; --text-color: #212121; --primary-color: #808000; --primary-dark: #555500; }
+    [data-theme="vert"] { --bg-color: #e8f5e9; --card-bg: #ffffff; --text-color: #212121; --primary-color: #4caf50; --primary-dark: #388e3c; }
+    [data-theme="turquoise"] { --bg-color: #e0f2f1; --card-bg: #ffffff; --text-color: #212121; --primary-color: #00897b; --primary-dark: #00695c; }
+    [data-theme="cyan"] { --bg-color: #e0f7fa; --card-bg: #ffffff; --text-color: #212121; --primary-color: #00acc1; --primary-dark: #00838f; }
+    [data-theme="bleu"] { --bg-color: #e3f2fd; --card-bg: #ffffff; --text-color: #212121; --primary-color: #1e88e5; --primary-dark: #1565c0; }
+    [data-theme="violet"] { --bg-color: #ede7f6; --card-bg: #ffffff; --text-color: #212121; --primary-color: #8e24aa; --primary-dark: #6a1b9a; }
+    [data-theme="magenta"] { --bg-color: #fce4ec; --card-bg: #ffffff; --text-color: #212121; --primary-color: #d81b60; --primary-dark: #ad1457; }
+    [data-theme="prune"] { --bg-color: #f3e5f5; --card-bg: #ffffff; --text-color: #212121; --primary-color: #4a148c; --primary-dark: #311b92; }
+    [data-theme="lilas"] { --bg-color: #f3e5f5; --card-bg: #ffffff; --text-color: #212121; --primary-color: #ab47bc; --primary-dark: #8e24aa; }
+    [data-theme="rose"] { --bg-color: #fce4ec; --card-bg: #ffffff; --text-color: #212121; --primary-color: #ec407a; --primary-dark: #d81b60; }
+    [data-theme="bordeaux"] { --bg-color: #f4e8ea; --card-bg: #ffffff; --text-color: #212121; --primary-color: #6b1d3a; --primary-dark: #4a1226; }
+    [data-theme="gris"] { --bg-color: #eee; --card-bg: #ffffff; --text-color: #212121; --primary-color: #757575; --primary-dark: #616161; }
+    [data-theme="argent"] { --bg-color: #e0e0e0; --card-bg: #ffffff; --text-color: #212121; --primary-color: #9e9e9e; --primary-dark: #757575; }
+    [data-theme="olive-clair"] { --bg-color: #f9fbe7; --card-bg: #ffffff; --text-color: #212121; --primary-color: #9e9d24; --primary-dark: #827717; }
+    [data-theme="menthe"] { --bg-color: #e8f8f5; --card-bg: #ffffff; --text-color: #212121; --primary-color: #2ecc71; --primary-dark: #27ae60; }
+    [data-theme="chair"] { --bg-color: #ffdacc; --card-bg: #ffffff; --text-color: #212121; --primary-color: #ffb399; --primary-dark: #e6734d; }
+    [data-theme="banane"] { --bg-color: #fff9c4; --card-bg: #ffffff; --text-color: #212121; --primary-color: #fbc02d; --primary-dark: #f57f17; }
+    [data-theme="bronze"] { --bg-color: #efebe9; --card-bg: #ffffff; --text-color: #212121; --primary-color: #8d6e63; --primary-dark: #6d4c41; }
+    [data-theme="tan"] { --bg-color: #f5ebd9; --card-bg: #ffffff; --text-color: #212121; --primary-color: #d2b48c; --primary-dark: #b59975; }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: var(--custom-font);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+
+    header { text-align: center; padding: 20px 0 10px 0; }
+
+    h1 { color: var(--primary-dark); margin: 0; font-size: 1.8rem; font-weight: 700; }
+    h2 { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 1.3rem; margin-top: 0; font-weight: 700; }
+
+    .section { margin-bottom: 25px; }
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    input, select, button, .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      font-size: 15px;
+      font-family: var(--custom-font);
+      box-sizing: border-box;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .btn, #btnGenerer {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:active, #btnGenerer:active { background-color: var(--primary-dark); }
+
+    .flex-group { display: flex; gap: 10px; }
+    .links-container { display: flex; flex-direction: column; gap: 10px; }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background-color: #000;
+    }
+
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    .friends-list { list-style: none; padding: 0; margin: 0; }
+    .friends-list li {
+      background: var(--card-bg);
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    footer a { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
+  </style>
 </head>
 <body>
 
-  <!-- En-tête -->
   <header>
     <h1>Vogel Officiel</h1>
   </header>
 
-  <!-- Section Communauté & Chaîne -->
+  <!-- Liens vers les modules organisés par dossier -->
+  <section class="section">
+    <h2>Catégories & Outils</h2>
+    <div class="links-container">
+      <a href="transports/personnalisation.html" class="btn">🚌 Module Transports (Générateur d'indices)</a>
+      <a href="brawlstars/stats.html" class="btn">🏆 Module Brawl Stars (Stats API)</a>
+    </div>
+  </section>
+
+  <!-- Sélecteur de Thème & Personnalisation Hex -->
+  <section class="section">
+    <h2>Thème & Couleurs</h2>
+    <div class="card">
+      <label>Choisir un thème prédéfini :</label>
+      <select id="selectTheme">
+        <option value="auto">Automatique (Système)</option>
+        <option value="chair">Chair (Among Us Rose/Pêche)</option>
+        <option value="blanc">Blanc</option>
+        <option value="noir">Noir</option>
+        <option value="rouge">Rouge</option>
+        <option value="orange">Orange</option>
+        <option value="or">Or</option>
+        <option value="beige">Beige</option>
+        <option value="jaune">Jaune</option>
+        <option value="citron">Citron</option>
+        <option value="olive">Olive</option>
+        <option value="vert">Vert</option>
+        <option value="turquoise">Turquoise</option>
+        <option value="cyan">Cyan</option>
+        <option value="bleu">Bleu</option>
+        <option value="violet">Violet</option>
+        <option value="magenta">Magenta</option>
+        <option value="prune">Prune</option>
+        <option value="lilas">Lilas</option>
+        <option value="rose">Rose</option>
+        <option value="bordeaux">Bordeaux</option>
+        <option value="gris">Gris</option>
+        <option value="argent">Argent</option>
+        <option value="olive-clair">Olive clair</option>
+        <option value="menthe">Menthe</option>
+        <option value="banane">Banane</option>
+        <option value="bronze">Bronze</option>
+        <option value="tan">Tan</option>
+      </select>
+
+      <label style="margin-top:15px; display:block;">Couleur personnalisée (Hex) :</label>
+      <div class="flex-group">
+        <input type="color" id="hexPicker" value="#5C6BC0">
+        <input type="text" id="hexInput" placeholder="#5C6BC0" value="#5C6BC0">
+      </div>
+    </div>
+  </section>
+
+  <!-- Communauté -->
   <section class="section">
     <h2>Rejoins la communauté</h2>
     <div class="links-container">
-      <a href="LIEN_DE_TON_DISCORD" class="btn" target="_blank">Serveur Discord</a>
+      <a href="https://discord.gg/TON_LIEN_DISCORD" class="btn" target="_blank">Serveur Discord</a>
       <a href="https://www.youtube.com/@vglvogel" class="btn" target="_blank">Chaîne YouTube</a>
     </div>
   </section>
 
-  <!-- Cœur du site : Vidéos & Shorts -->
+  <!-- Vidéo YouTube -->
   <section class="section">
     <h2>Dernières Vidéos & Shorts</h2>
     <div class="video-container">
-      <!-- Remplace l'URL par ton lien d'intégration YouTube -->
-      <iframe src="https://www.youtube.com/embed/videoseries?list=TON_ID_DE_PLAYLIST" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/qcIR6i4O1OI" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -42,13 +233,13 @@
   <!-- Générateur de noms -->
   <section class="section">
     <h2>Générateur de Noms</h2>
-    <div class="card generator">
-      <p id="nomAffiche">Clique sur le bouton pour générer un nom !</p>
-      <button id="btnGenerer">Générer</button>
+    <div class="card" style="text-align: center;">
+      <p id="nomAffiche" style="font-size:18px; font-weight:bold;">Clique sur le bouton pour générer un nom !</p>
+      <button id="btnGenerer" class="btn">Générer</button>
     </div>
   </section>
 
-  <!-- Liste des amis -->
+  <!-- Mes Amis -->
   <section class="section">
     <h2>Mes Amis</h2>
     <ul class="friends-list">
@@ -62,12 +253,67 @@
     </ul>
   </section>
 
-  <!-- Contact -->
+  <!-- Footer -->
   <footer>
     <h2>Contact</h2>
     <p>Email : <a href="mailto:vogeldelagrange@gmail.com">vogeldelagrange@gmail.com</a></p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    // Thèmes & Hex
+    const selectTheme = document.getElementById('selectTheme');
+    const hexPicker = document.getElementById('hexPicker');
+    const hexInput = document.getElementById('hexInput');
+
+    selectTheme.addEventListener('change', (e) => {
+      const theme = e.target.value;
+      if (theme === 'auto') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+    });
+
+    function applyHexColor(color) {
+      document.documentElement.style.setProperty('--primary-color', color);
+      document.documentElement.style.setProperty('--primary-dark', color);
+    }
+
+    hexPicker.addEventListener('input', (e) => {
+      hexInput.value = e.target.value;
+      applyHexColor(e.target.value);
+    });
+
+    hexInput.addEventListener('input', () => {
+      let val = hexInput.value.trim();
+      if (!val.startsWith('#') && val.length === 6) val = '#' + val;
+      if (/^#([0-9A-F]{3}){1,2}$/i.test(val)) {
+        hexPicker.value = val;
+        applyHexColor(val);
+      }
+    });
+
+    // Générateur de Noms
+    const listeNoms = [
+      "GRG | Gaël",
+      "Dylan",
+      "Papageï",
+      "Vogel",
+      "JustUltra (Yacine)",
+      "Ztravaa",
+      "Didi"
+    ];
+
+    const btnGenerer = document.getElementById("btnGenerer");
+    const nomAffiche = document.getElementById("nomAffiche");
+
+    if (btnGenerer && nomAffiche) {
+      btnGenerer.addEventListener("click", function() {
+        const indexAleatoire = Math.floor(Math.random() * listeNoms.length);
+        nomAffiche.innerText = listeNoms[indexAleatoire];
+      });
+    }
+  </script>
 </body>
 </html>
+a
