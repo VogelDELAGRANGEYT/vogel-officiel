@@ -1,4 +1,8 @@
 /* Style général */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #f4f5f9;
@@ -9,18 +13,21 @@ body {
 
 header {
   text-align: center;
-  padding: 20px 0;
+  padding: 20px 0 10px 0;
 }
 
 h1 {
   color: #4A55A2; /* Bleu-violet doux */
   margin: 0;
+  font-size: 1.8rem;
 }
 
 h2 {
   color: #5C6BC0; /* Bleu pervanche clair */
   border-bottom: 2px solid #5C6BC0;
   padding-bottom: 5px;
+  font-size: 1.3rem;
+  margin-top: 0;
 }
 
 /* Sections et cartes */
@@ -35,7 +42,7 @@ h2 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
-/* Boutons */
+/* Boutons Réseaux / Communauté */
 .links-container {
   display: flex;
   flex-direction: column;
@@ -54,10 +61,31 @@ h2 {
   border: none;
   font-size: 16px;
   cursor: pointer;
+  width: 100%;
 }
 
 .btn:active, #btnGenerer:active {
   background-color: #4A55A2;
+}
+
+/* Intégration Vidéo */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* Ratio 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* Générateur */
@@ -72,43 +100,27 @@ h2 {
   margin-bottom: 15px;
 }
 
-/* Vidéo */
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #000;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 /* Liste des amis */
 .friends-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .friends-list li {
   background: #ffffff;
-  padding: 10px 15px;
+  padding: 12px 15px;
   margin-bottom: 8px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  font-weight: 500;
 }
 
-/* Footer */
+/* Pied de page (Contact) */
 footer {
   text-align: center;
   margin-top: 30px;
-  padding-top: 15px;
+  padding: 20px 0;
   border-top: 1px solid #ddd;
 }
 
