@@ -1,0 +1,119 @@
+/* Style général */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f5f9;
+  color: #212121;
+  margin: 0;
+  padding: 15px;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+h1 {
+  color: #4A55A2; /* Bleu-violet doux */
+  margin: 0;
+}
+
+h2 {
+  color: #5C6BC0; /* Bleu pervanche clair */
+  border-bottom: 2px solid #5C6BC0;
+  padding-bottom: 5px;
+}
+
+/* Sections et cartes */
+.section {
+  margin-bottom: 25px;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Boutons */
+.links-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn, #btnGenerer {
+  display: block;
+  text-align: center;
+  background-color: #5C6BC0;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:active, #btnGenerer:active {
+  background-color: #4A55A2;
+}
+
+/* Générateur */
+.generator {
+  text-align: center;
+}
+
+#nomAffiche {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Vidéo */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Liste des amis */
+.friends-list {
+  list-style: none;
+  padding: 0;
+}
+
+.friends-list li {
+  background: #ffffff;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+footer a {
+  color: #4A55A2;
+  text-decoration: none;
+  font-weight: bold;
+}
