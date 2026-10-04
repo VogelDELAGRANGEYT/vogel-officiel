@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brawl Stars Stats - Vogel Officiel</title>
+  <title>Redirection Brawl Stats - Vogel Officiel</title>
   
-  <!-- Polices Google Fonts -->
+  <!-- Redirection HTML instantanée -->
+  <meta http-equiv="refresh" content="0; url=https://brawlstats.net/player/2LVLJUU9CG">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -16,7 +18,6 @@
       --card-bg: #181b26;
       --text-color: #ffffff;
       --primary-color: #FFC107;
-      --primary-dark: #FF9800;
       --border-color: #2a2e40;
     }
 
@@ -27,321 +28,72 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       margin: 0;
-      padding: 15px;
-    }
-
-    header { text-align: center; padding: 15px 0; }
-    h1 { 
-      font-family: 'Montserrat', sans-serif; 
-      color: var(--primary-color); 
-      margin: 0; 
-      font-size: 1.8rem; 
-      text-transform: uppercase; 
-      text-shadow: 2px 2px #000; 
-    }
-
-    .nav-container {
+      padding: 20px;
       display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-
-    .nav-link {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .card {
       background-color: var(--card-bg);
-      padding: 15px;
+      padding: 25px;
       border-radius: 12px;
       border: 1px solid var(--border-color);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    p {
+      font-size: 15px;
       margin-bottom: 20px;
     }
 
-    label { display: block; margin-top: 10px; font-weight: bold; font-size: 14px; }
-
-    input, select, button {
+    .btn {
+      display: block;
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
+      background-color: #2196F3;
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: none;
       border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background-color: #0e1017;
-      color: #FFF;
-      font-size: 16px;
-      font-family: 'Lato', sans-serif;
+      box-sizing: border-box;
     }
 
-    .btn {
-      background-color: var(--primary-color);
-      color: #000;
-      font-weight: 900;
-      border: none;
-      cursor: pointer;
-      margin-top: 12px;
-      text-transform: uppercase;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .btn:active { background-color: var(--primary-dark); }
-
-    /* Affichage de la carte de profil */
-    .profile-card {
-      display: none;
-      background: linear-gradient(135deg, #1f2333 0%, #12141d 100%);
-      border: 2px solid var(--primary-color);
-      border-radius: 16px;
-      padding: 20px;
+    .nav-link {
+      display: inline-block;
       margin-top: 15px;
-    }
-
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 15px;
-    }
-
-    .profile-avatar {
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      border: 3px solid var(--primary-color);
-      background-size: cover;
-      background-position: center;
-      background-color: #222;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-
-    .profile-info h2 {
-      margin: 0;
-      font-size: 1.4rem;
-      color: #FFF;
-      font-family: 'Montserrat', sans-serif;
-      border: none;
-      padding: 0;
-    }
-
-    .profile-tag {
-      font-size: 0.9rem;
-      color: var(--primary-color);
-      font-weight: bold;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .stat-item {
-      background-color: #0e1017;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      text-align: center;
-    }
-
-    .stat-title { font-size: 0.8rem; color: #aaa; display: block; }
-    .stat-value { font-size: 1.1rem; font-weight: bold; color: #fff; margin-top: 4px; }
-
-    /* Liste des Brawlers */
-    .brawlers-title {
-      margin-top: 20px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.1rem;
-      color: var(--primary-color);
-    }
-
-    .brawlers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-      max-height: 280px;
-      overflow-y: auto;
-      padding-right: 5px;
-    }
-
-    .brawler-card {
-      background: #0e1017;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .brawler-name { font-size: 0.75rem; font-weight: bold; color: #FFF; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .brawler-trophies { font-size: 0.85rem; color: #FFC107; font-weight: bold; }
-
-    .loader {
-      display: none;
-      text-align: center;
-      margin: 15px 0;
-      font-weight: bold;
-      color: var(--primary-color);
-    }
-
-    .error-msg {
-      display: none;
-      color: #ff5252;
-      font-weight: bold;
-      margin-top: 10px;
-      text-align: center;
-      font-size: 14px;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
 
-  <div class="nav-container">
-    <a href="../index.html" class="nav-link">← Accueil</a>
-    <a href="../transports/bus.html" class="nav-link">🚌 Module Transports</a>
-  </div>
-
-  <header>
-    <h1>Stats Brawl Stars</h1>
-  </header>
-
   <div class="card">
-    <label for="playerTag">Entrez le Tag Joueur Brawl Stars (#) :</label>
-    <input type="text" id="playerTag" placeholder="Ex: #289P0R9L" value="#289P0R9L">
-    <button id="btnFetchStats" class="btn">Obtenir les statistiques 🔍</button>
+    <h1>Redirection en cours... ⏳</h1>
+    <p>Vous allez être redirigé vers le profil Brawl Stats du joueur <strong>#2LVLJUU9CG</strong>.</p>
     
-    <div id="loader" class="loader">Recherche du profil en cours... ⏳</div>
-    <div id="errorMsg" class="error-msg"></div>
-  </div>
+    <a href="https://brawlstats.net/player/2LVLJUU9CG" class="btn">
+      Cliquer ici si la redirection ne se fait pas
+    </a>
 
-  <!-- Profil Joueur -->
-  <div id="profileCard" class="profile-card">
-    <div class="profile-header">
-      <div id="profileAvatar" class="profile-avatar">🏆</div>
-      <div class="profile-info">
-        <h2 id="playerName">Pseudo</h2>
-        <span id="playerTagDisplay" class="profile-tag">#TAG</span>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-item">
-        <span class="stat-title">Trophées Actuels</span>
-        <div id="trophies" class="stat-value">0 🏆</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-title">Record de Trophées</span>
-        <div id="highestTrophies" class="stat-value">0 🏆</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-title">Victoires 3v3</span>
-        <div id="v3v3" class="stat-value">0 ⚔️</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-title">Victoires Solo/Duo</span>
-        <div id="showdownWins" class="stat-value">0 👑</div>
-      </div>
-      <div class="stat-item" style="grid-column: span 2;">
-        <span class="stat-title">Club Actuel</span>
-        <div id="clubName" class="stat-value">Aucun</div>
-      </div>
-    </div>
-
-    <div class="brawlers-title">Top Brawlers débloqués :</div>
-    <div id="brawlersGrid" class="brawlers-grid"></div>
+    <a href="../index.html" class="nav-link">← Retour au site principal</a>
   </div>
 
   <script>
-    const playerTagInput = document.getElementById('playerTag');
-    const btnFetchStats = document.getElementById('btnFetchStats');
-    const loader = document.getElementById('loader');
-    const errorMsg = document.getElementById('errorMsg');
-    const profileCard = document.getElementById('profileCard');
-
-    const playerName = document.getElementById('playerName');
-    const playerTagDisplay = document.getElementById('playerTagDisplay');
-    const profileAvatar = document.getElementById('profileAvatar');
-    const trophies = document.getElementById('trophies');
-    const highestTrophies = document.getElementById('highestTrophies');
-    const v3v3 = document.getElementById('v3v3');
-    const showdownWins = document.getElementById('showdownWins');
-    const clubName = document.getElementById('clubName');
-    const brawlersGrid = document.getElementById('brawlersGrid');
-
-    btnFetchStats.addEventListener('click', fetchPlayerStats);
-
-    async function fetchPlayerStats() {
-      let tag = playerTagInput.value.trim().toUpperCase();
-      if (!tag) return;
-      if (!tag.startsWith('#')) tag = '#' + tag;
-
-      errorMsg.style.display = 'none';
-      profileCard.style.display = 'none';
-      loader.style.display = 'block';
-
-      const cleanTag = tag.replace('#', '');
-
-      try {
-        const response = await fetch(`https://api.brawlify.com/v1/player/${cleanTag}`);
-        
-        if (!response.ok) {
-          throw new Error("Impossible de trouver ce joueur.");
-        }
-
-        const data = await response.json();
-        loader.style.display = 'none';
-        
-        playerName.innerText = data.name || "Joueur";
-        playerTagDisplay.innerText = data.tag || tag;
-        trophies.innerText = (data.trophies || 0).toLocaleString() + " 🏆";
-        highestTrophies.innerText = (data.highestTrophies || 0).toLocaleString() + " 🏆";
-        v3v3.innerText = (data["3vs3Victories"] || 0).toLocaleString() + " ⚔️";
-        
-        const soloDuo = (data.soloVictories || 0) + (data.duoVictories || 0);
-        showdownWins.innerText = soloDuo.toLocaleString() + " 👑";
-
-        clubName.innerText = data.club ? data.club.name : "Aucun Club";
-
-        if (data.icon && data.icon.id) {
-          profileAvatar.style.backgroundImage = `url('https://cdn.brawlify.com/profile/${data.icon.id}.png')`;
-          profileAvatar.innerText = '';
-        } else {
-          profileAvatar.style.backgroundImage = 'none';
-          profileAvatar.innerText = '🏆';
-        }
-
-        brawlersGrid.innerHTML = '';
-        if (data.brawlers && data.brawlers.length > 0) {
-          const sortedBrawlers = data.brawlers.sort((a, b) => b.trophies - a.trophies);
-
-          sortedBrawlers.forEach(brawler => {
-            const card = document.createElement('div');
-            card.className = 'brawler-card';
-            card.innerHTML = `
-              <span class="brawler-name">${brawler.name}</span>
-              <span class="brawler-trophies">${brawler.trophies} 🏆</span>
-            `;
-            brawlersGrid.appendChild(card);
-          });
-        }
-
-        profileCard.style.display = 'block';
-
-      } catch (err) {
-        loader.style.display = 'none';
-        errorMsg.innerText = "⚠️ Joueur non trouvé ou erreur de connexion API.";
-        errorMsg.style.display = 'block';
-      }
-    }
+    // Redirection JavaScript immédiate
+    window.location.href = "https://brawlstats.net/player/2LVLJUU9CG";
   </script>
 </body>
 </html>
