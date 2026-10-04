@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
   
-  <!-- Librairie d'exportation d'images -->
+  <!-- Exportation d'images -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
@@ -75,6 +75,8 @@
       font-family: 'Lato', sans-serif;
     }
 
+    input[type="range"] { padding: 0; }
+
     .btn {
       background-color: var(--primary-color);
       color: #ffffff;
@@ -87,7 +89,7 @@
     .btn:active { background-color: var(--primary-dark); }
     .flex-group { display: flex; gap: 10px; }
 
-    /* Zone d'aperçu du badge */
+    /* Zone d'aperçu */
     .preview-box {
       display: flex;
       flex-direction: column;
@@ -98,7 +100,14 @@
       border: 2px dashed var(--border-color);
       border-radius: 12px;
       margin-top: 15px;
-      min-height: 180px;
+      min-height: 200px;
+    }
+
+    .badge-container {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .badge {
@@ -106,21 +115,73 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-      transition: all 0.2s ease;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      transition: all 0.1s ease;
+      position: relative;
     }
 
-    /* Formes prédéfinies */
-    .shape-circle { border-radius: 50%; width: 80px; height: 80px; font-size: 32px; }
-    .shape-square { border-radius: 12px; width: 80px; height: 80px; font-size: 32px; }
-    .shape-rect { border-radius: 8px; width: 120px; height: 60px; font-size: 26px; }
-    .shape-pill { border-radius: 50px; width: 130px; height: 60px; font-size: 26px; }
+    .suffix-text {
+      font-size: 0.5em;
+      vertical-align: super;
+      margin-left: 2px;
+    }
+
+    .svg-icon-preview {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-icon-preview svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    /* Formes */
+    .shape-rect { min-width: 110px; height: 60px; padding: 0 15px; }
+    .shape-square { width: 80px; height: 80px; }
+    .shape-circle { width: 80px; height: 80px; border-radius: 50% !important; }
+
+    .shape-triangle {
+      width: 90px;
+      height: 80px;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      padding-top: 20px;
+    }
+
+    .shape-outline {
+      background-color: transparent !important;
+      border-style: solid;
+      border-width: 4px;
+    }
+
+    .shape-bars-v {
+      border-left-style: solid !important;
+      border-right-style: solid !important;
+      border-left-width: 6px !important;
+      border-right-width: 6px !important;
+      background-color: transparent !important;
+      min-width: 100px;
+      height: 50px;
+      padding: 0 10px;
+    }
+
+    .shape-bars-h {
+      border-top-style: solid !important;
+      border-bottom-style: solid !important;
+      border-top-width: 6px !important;
+      border-bottom-width: 6px !important;
+      background-color: transparent !important;
+      min-width: 100px;
+      height: 50px;
+      padding: 0 10px;
+    }
 
     .dest-text {
-      margin-top: 15px;
       font-weight: bold;
-      font-size: 18px;
-      color: #111;
       text-align: center;
     }
 
@@ -135,23 +196,49 @@
 </head>
 <body>
 
-  <a href="index.html" class="nav-link">← Retour au site principal</a>
+  <a href="../index.html" class="nav-link">← Retour au site principal</a>
 
   <header>
     <h1>Générateur d'Indices de Bus & Transport</h1>
   </header>
 
-  <!-- Formulaire de personnalisation -->
   <div class="card">
-    <h2>Personnalisation</h2>
-    
+    <h2>1. Texte & Mention</h2>
     <label>Nom ou Numéro de la ligne :</label>
     <input type="text" id="lineIndex" value="14" placeholder="Ex: 14, 208, TVM, A...">
 
-    <label>Couleur du texte :</label>
-    <input type="color" id="textColor" value="#ffffff">
+    <label>Mention spéciale (Bis / Ter) :</label>
+    <select id="suffixSelect">
+      <option value="">Aucune</option>
+      <option value="bis">bis</option>
+      <option value="ter">ter</option>
+      <option value="custom">Autre (Saisie personnalisée)</option>
+    </select>
+    <input type="text" id="customSuffix" placeholder="Ex: exp, N, B..." style="display:none; margin-top:5px;">
 
-    <label>Couleur du fond (Badge) :</label>
+    <label>Couleurs prédéfinies du texte :</label>
+    <select id="presetTextColor">
+      <option value="#ffffff">Blanc (#ffffff)</option>
+      <option value="#000000">Noir (#000000)</option>
+      <option value="#25303b">Bleu Sombre RATP (#25303b)</option>
+      <option value="custom">Personnalisée (Hex)</option>
+    </select>
+
+    <div id="customTextGroup" style="display:none;">
+      <label>Couleur du texte personnalisée :</label>
+      <input type="color" id="textColor" value="#ffffff">
+    </div>
+
+    <label>Taille du texte de l'indice : <span id="badgeFontSizeValue">26px</span></label>
+    <input type="range" id="badgeFontSize" min="14" max="60" value="26">
+
+    <label>Espacement des lettres (Indice) : <span id="letterSpacingValue">0px</span></label>
+    <input type="range" id="letterSpacing" min="-2" max="10" value="0">
+  </div>
+
+  <div class="card">
+    <h2>2. Forme & Couleurs du Badge</h2>
+    <label>Couleur du fond / des bordures :</label>
     <div class="flex-group">
       <input type="color" id="badgeColor" value="#00838f">
       <input type="text" id="hexInput" placeholder="#00838f" value="#00838f">
@@ -166,23 +253,57 @@
       <option value="Arial, sans-serif">Arial</option>
     </select>
 
-    <label>Forme du badge :</label>
+    <label style="margin-top:8px; font-weight:normal; font-size:13px; color:var(--primary-color);">
+      📂 Importer une police (.ttf, .otf, .woff) :
+    </label>
+    <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff,.woff2">
+
+    <label style="margin-top:15px;">Forme du badge :</label>
     <select id="shapeSelect">
-      <option value="shape-rect">Rectangle arrondi</option>
-      <option value="shape-circle">Cercle</option>
+      <option value="shape-rect">Rectangle</option>
       <option value="shape-square">Carré</option>
-      <option value="shape-pill">Pilule (Ovale)</option>
+      <option value="shape-circle">Cercle</option>
+      <option value="shape-triangle">Triangle</option>
+      <option value="shape-rect-outline">Rectangle (Contour)</option>
+      <option value="shape-square-outline">Carré (Contour)</option>
+      <option value="shape-circle-outline">Cercle (Contour)</option>
+      <option value="shape-triangle-outline">Triangle (Contour)</option>
+      <option value="shape-bars-v">Deux barres verticales (Gauche/Droite)</option>
+      <option value="shape-bars-h">Deux barres horizontales (Haut/Bas)</option>
     </select>
+
+    <label>Arrondi des coins : <span id="radiusValue">8px</span></label>
+    <input type="range" id="borderRadiusInput" min="0" max="50" value="8">
+  </div>
+
+  <div class="card">
+    <h2>3. Destination & Icône</h2>
+    <label>📂 Importer une icône (SVG) :</label>
+    <input type="file" id="svgFileInput" accept=".svg">
 
     <label>Destination (Optionnelle) :</label>
     <input type="text" id="destText" placeholder="Ex: Gare de Lyon">
+
+    <label>Couleur de la destination :</label>
+    <input type="color" id="destColor" value="#111111">
+
+    <label>Taille du texte de destination : <span id="destFontSizeValue">18px</span></label>
+    <input type="range" id="destFontSize" min="10" max="36" value="18">
+
+    <label>Espacement entre éléments : <span id="elementSpacingValue">15px</span></label>
+    <input type="range" id="elementSpacing" min="0" max="40" value="15">
   </div>
 
-  <!-- Rendu Visuel -->
+  <!-- Aperçu Rendu -->
   <div class="card">
     <h2>Aperçu du visuel</h2>
     <div class="preview-box" id="captureArea">
-      <div id="badgePreview" class="badge shape-rect" style="background-color: #00838f; color: #ffffff;">14</div>
+      <div id="iconPreview" class="svg-icon-preview"></div>
+      <div class="badge-container">
+        <div id="badgePreview" class="badge shape-rect">
+          <span id="badgeMainText">14</span><span id="badgeSuffix" class="suffix-text"></span>
+        </div>
+      </div>
       <div id="destPreview" class="dest-text">Gare de Lyon</div>
     </div>
 
@@ -194,7 +315,7 @@
     </div>
   </div>
 
-  <!-- Sauvegarde & Importation JSON -->
+  <!-- Sauvegarde JSON -->
   <div class="card">
     <h2>Sauvegarde de la configuration</h2>
     <button id="btnExportJSON" class="btn">Télécharger le fichier JSON</button>
@@ -204,18 +325,94 @@
   </div>
 
   <script>
+    // Inputs
     const lineIndex = document.getElementById('lineIndex');
+    const suffixSelect = document.getElementById('suffixSelect');
+    const customSuffix = document.getElementById('customSuffix');
+    const presetTextColor = document.getElementById('presetTextColor');
+    const customTextGroup = document.getElementById('customTextGroup');
     const textColor = document.getElementById('textColor');
+    const badgeFontSize = document.getElementById('badgeFontSize');
+    const badgeFontSizeValue = document.getElementById('badgeFontSizeValue');
+    const letterSpacing = document.getElementById('letterSpacing');
+    const letterSpacingValue = document.getElementById('letterSpacingValue');
+
     const badgeColor = document.getElementById('badgeColor');
     const hexInput = document.getElementById('hexInput');
     const fontSelect = document.getElementById('fontSelect');
+    const fontFileInput = document.getElementById('fontFileInput');
     const shapeSelect = document.getElementById('shapeSelect');
-    const destText = document.getElementById('destText');
+    const borderRadiusInput = document.getElementById('borderRadiusInput');
+    const radiusValue = document.getElementById('radiusValue');
 
+    const svgFileInput = document.getElementById('svgFileInput');
+    const destText = document.getElementById('destText');
+    const destColor = document.getElementById('destColor');
+    const destFontSize = document.getElementById('destFontSize');
+    const destFontSizeValue = document.getElementById('destFontSizeValue');
+    const elementSpacing = document.getElementById('elementSpacing');
+    const elementSpacingValue = document.getElementById('elementSpacingValue');
+
+    // Display elements
+    const captureArea = document.getElementById('captureArea');
+    const iconPreview = document.getElementById('iconPreview');
     const badgePreview = document.getElementById('badgePreview');
+    const badgeMainText = document.getElementById('badgeMainText');
+    const badgeSuffix = document.getElementById('badgeSuffix');
     const destPreview = document.getElementById('destPreview');
 
-    // Synchronisation dynamique du champ Hex et du Color Picker
+    // Suffix visibility
+    suffixSelect.addEventListener('change', () => {
+      customSuffix.style.display = suffixSelect.value === 'custom' ? 'block' : 'none';
+      render();
+    });
+
+    // Preset color visibility
+    presetTextColor.addEventListener('change', () => {
+      customTextGroup.style.display = presetTextColor.value === 'custom' ? 'block' : 'none';
+      render();
+    });
+
+    // Font import
+    fontFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const fontName = 'CustomFont_' + Date.now();
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const fontData = event.target.result;
+        const newFontFace = new FontFace(fontName, fontData);
+
+        newFontFace.load().then(function(loadedFace) {
+          document.fonts.add(loadedFace);
+          const option = document.createElement('option');
+          option.value = `'${fontName}', sans-serif`;
+          option.textContent = `Police : ${file.name.split('.')[0]}`;
+          fontSelect.appendChild(option);
+          fontSelect.value = option.value;
+          render();
+        }).catch(err => alert("Erreur chargement police : " + err.message));
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+    // SVG Import
+    svgFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        iconPreview.innerHTML = event.target.result;
+        render();
+      };
+      reader.readAsText(file);
+    });
+
+    // Hex sync
     badgeColor.addEventListener('input', () => {
       hexInput.value = badgeColor.value;
       render();
@@ -223,32 +420,100 @@
 
     hexInput.addEventListener('input', () => {
       let val = hexInput.value.trim();
-      if (!val.startsWith('#') && val.length === 6) {
-        val = '#' + val;
-      }
+      if (!val.startsWith('#') && val.length === 6) val = '#' + val;
       if (/^#([0-9A-F]{3}){1,2}$/i.test(val)) {
         badgeColor.value = val;
         render();
       }
     });
 
-    // Mise à jour de l'affichage en temps réel
+    // Render Function
     function render() {
-      badgePreview.innerText = lineIndex.value || "1";
-      badgePreview.style.color = textColor.value;
-      badgePreview.style.backgroundColor = badgeColor.value;
-      badgePreview.style.fontFamily = fontSelect.value;
-      badgePreview.className = "badge " + shapeSelect.value;
+      // Updates values display
+      badgeFontSizeValue.innerText = badgeFontSize.value + 'px';
+      letterSpacingValue.innerText = letterSpacing.value + 'px';
+      radiusValue.innerText = borderRadiusInput.value + 'px';
+      destFontSizeValue.innerText = destFontSize.value + 'px';
+      elementSpacingValue.innerText = elementSpacing.value + 'px';
 
+      // Suffix
+      let suffix = '';
+      if (suffixSelect.value === 'custom') suffix = customSuffix.value;
+      else if (suffixSelect.value) suffix = suffixSelect.value;
+      
+      badgeMainText.innerText = lineIndex.value || "1";
+      badgeSuffix.innerText = suffix;
+
+      // Colors
+      let finalTextColor = presetTextColor.value === 'custom' ? textColor.value : presetTextColor.value;
+      badgePreview.style.color = finalTextColor;
+      badgePreview.style.fontSize = badgeFontSize.value + 'px';
+      badgePreview.style.letterSpacing = letterSpacing.value + 'px';
+      badgePreview.style.fontFamily = fontSelect.value;
+
+      // Spacing
+      captureArea.style.gap = elementSpacing.value + 'px';
+
+      // Shape
+      const shape = shapeSelect.value;
+      const radius = borderRadiusInput.value;
+
+      badgePreview.style.clipPath = 'none';
+      badgePreview.style.border = 'none';
+      badgePreview.style.backgroundColor = 'transparent';
+      badgePreview.style.borderRadius = radius + 'px';
+
+      if (shape === 'shape-rect') {
+        badgePreview.className = 'badge shape-rect';
+        badgePreview.style.backgroundColor = badgeColor.value;
+      } else if (shape === 'shape-square') {
+        badgePreview.className = 'badge shape-square';
+        badgePreview.style.backgroundColor = badgeColor.value;
+      } else if (shape === 'shape-circle') {
+        badgePreview.className = 'badge shape-circle';
+        badgePreview.style.backgroundColor = badgeColor.value;
+      } else if (shape === 'shape-triangle') {
+        badgePreview.className = 'badge shape-triangle';
+        badgePreview.style.backgroundColor = badgeColor.value;
+      } else if (shape === 'shape-rect-outline') {
+        badgePreview.className = 'badge shape-rect shape-outline';
+        badgePreview.style.borderColor = badgeColor.value;
+      } else if (shape === 'shape-square-outline') {
+        badgePreview.className = 'badge shape-square shape-outline';
+        badgePreview.style.borderColor = badgeColor.value;
+      } else if (shape === 'shape-circle-outline') {
+        badgePreview.className = 'badge shape-circle shape-outline';
+        badgePreview.style.borderColor = badgeColor.value;
+      } else if (shape === 'shape-triangle-outline') {
+        badgePreview.className = 'badge shape-triangle';
+        badgePreview.style.border = `4px solid ${badgeColor.value}`;
+        badgePreview.style.backgroundColor = 'transparent';
+      } else if (shape === 'shape-bars-v') {
+        badgePreview.className = 'badge shape-bars-v';
+        badgePreview.style.borderColor = badgeColor.value;
+      } else if (shape === 'shape-bars-h') {
+        badgePreview.className = 'badge shape-bars-h';
+        badgePreview.style.borderColor = badgeColor.value;
+      }
+
+      // SVG Icon Color
+      const svgEl = iconPreview.querySelector('svg');
+      if (svgEl) svgEl.style.color = finalTextColor;
+
+      // Destination
       destPreview.innerText = destText.value;
+      destPreview.style.color = destColor.value;
+      destPreview.style.fontSize = destFontSize.value + 'px';
       destPreview.style.fontFamily = fontSelect.value;
     }
 
-    [lineIndex, textColor, fontSelect, shapeSelect, destText].forEach(el => {
+    // Attach listeners
+    [lineIndex, customSuffix, presetTextColor, textColor, badgeFontSize, letterSpacing,
+     fontSelect, shapeSelect, borderRadiusInput, destText, destColor, destFontSize, elementSpacing].forEach(el => {
       el.addEventListener('input', render);
     });
 
-    // Exportation sous forme d'images
+    // Exports
     document.getElementById('btnPNG').addEventListener('click', () => exportImage('png'));
     document.getElementById('btnJPG').addEventListener('click', () => exportImage('jpeg'));
 
@@ -277,15 +542,24 @@
       link.click();
     });
 
-    // Sauvegarde et Importation JSON
+    // Export/Import JSON
     document.getElementById('btnExportJSON').addEventListener('click', () => {
       const config = {
         lineIndex: lineIndex.value,
+        suffixSelect: suffixSelect.value,
+        customSuffix: customSuffix.value,
+        presetTextColor: presetTextColor.value,
         textColor: textColor.value,
+        badgeFontSize: badgeFontSize.value,
+        letterSpacing: letterSpacing.value,
         badgeColor: badgeColor.value,
         fontSelect: fontSelect.value,
         shapeSelect: shapeSelect.value,
-        destText: destText.value
+        borderRadiusInput: borderRadiusInput.value,
+        destText: destText.value,
+        destColor: destColor.value,
+        destFontSize: destFontSize.value,
+        elementSpacing: elementSpacing.value
       };
       const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
       const link = document.createElement('a');
@@ -299,20 +573,31 @@
       reader.onload = (event) => {
         const data = JSON.parse(event.target.result);
         if (data.lineIndex) lineIndex.value = data.lineIndex;
+        if (data.suffixSelect) suffixSelect.value = data.suffixSelect;
+        if (data.customSuffix) customSuffix.value = data.customSuffix;
+        if (data.presetTextColor) presetTextColor.value = data.presetTextColor;
         if (data.textColor) textColor.value = data.textColor;
+        if (data.badgeFontSize) badgeFontSize.value = data.badgeFontSize;
+        if (data.letterSpacing) letterSpacing.value = data.letterSpacing;
         if (data.badgeColor) {
           badgeColor.value = data.badgeColor;
           hexInput.value = data.badgeColor;
         }
         if (data.fontSelect) fontSelect.value = data.fontSelect;
         if (data.shapeSelect) shapeSelect.value = data.shapeSelect;
+        if (data.borderRadiusInput) borderRadiusInput.value = data.borderRadiusInput;
         if (data.destText) destText.value = data.destText;
+        if (data.destColor) destColor.value = data.destColor;
+        if (data.destFontSize) destFontSize.value = data.destFontSize;
+        if (data.elementSpacing) elementSpacing.value = data.elementSpacing;
+
+        suffixSelect.dispatchEvent(new Event('change'));
+        presetTextColor.dispatchEvent(new Event('change'));
         render();
       };
       reader.readAsText(e.target.files[0]);
     });
 
-    // Lancement au chargement
     render();
   </script>
 </body>
