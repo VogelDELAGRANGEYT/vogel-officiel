@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur d'Indices - Vogel Officiel</title>
+  
+  <!-- Polices Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- Librairie d'exportation d'images -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f4f5f9;
+      --card-bg: #ffffff;
+      --text-color: #212121;
+      --primary-color: #5C6BC0;
+      --primary-dark: #4A55A2;
+      --border-color: #ddd;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --primary-color: #7986cb;
+        --primary-dark: #5c6bc0;
+        --border-color: #333333;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+    }
+
+    header { text-align: center; padding: 15px 0; }
+    h1 { color: var(--primary-dark); margin: 0; font-size: 1.6rem; }
+    h2 { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-size: 1.2rem; margin-top: 0; }
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      font-size: 15px;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: #ffffff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:active { background-color: var(--primary-dark); }
+    .flex-group { display: flex; gap: 10px; }
+
+    /* Zone d'aperçu du badge */
+    .preview-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background-color: #ffffff;
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      margin-top: 15px;
+      min-height: 180px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    /* Formes prédéfinies */
+    .shape-circle { border-radius: 50%; width: 80px; height: 80px; font-size: 32px; }
+    .shape-square { border-radius: 12px; width: 80px; height: 80px; font-size: 32px; }
+    .shape-rect { border-radius: 8px; width: 120px; height: 60px; font-size: 26px; }
+    .shape-pill { border-radius: 50px; width: 130px; height: 60px; font-size: 26px; }
+
+    .dest-text {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #111;
+      text-align: center;
+    }
+
+    .nav-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="nav-link">← Retour au site principal</a>
+
+  <header>
+    <h1>Générateur d'Indices de Bus & Transport</h1>
+  </header>
+
+  <!-- Formulaire de personnalisation -->
+  <div class="card">
+    <h2>Personnalisation</h2>
+    
+    <label>Nom ou Numéro de la ligne :</label>
+    <input type="text" id="lineIndex" value="14" placeholder="Ex: 14, 208, TVM, A...">
+
+    <label>Couleur du texte :</label>
+    <input type="color" id="textColor" value="#ffffff">
+
+    <label>Couleur du fond (Badge) :</label>
+    <div class="flex-group">
+      <input type="color" id="badgeColor" value="#00838f">
+      <input type="text" id="hexInput" placeholder="#00838f" value="#00838f">
+    </div>
+
+    <label>Police d'écriture :</label>
+    <select id="fontSelect">
+      <option value="'Lato', sans-serif">Lato</option>
+      <option value="'Montserrat', sans-serif">Montserrat (Style Métro / RATP)</option>
+      <option value="'Roboto Condensed', sans-serif">Roboto Condensé</option>
+      <option value="'Courier New', monospace">Courier New</option>
+      <option value="Arial, sans-serif">Arial</option>
+    </select>
+
+    <label>Forme du badge :</label>
+    <select id="shapeSelect">
+      <option value="shape-rect">Rectangle arrondi</option>
+      <option value="shape-circle">Cercle</option>
+      <option value="shape-square">Carré</option>
+      <option value="shape-pill">Pilule (Ovale)</option>
+    </select>
+
+    <label>Destination (Optionnelle) :</label>
+    <input type="text" id="destText" placeholder="Ex: Gare de Lyon">
+  </div>
+
+  <!-- Rendu Visuel -->
+  <div class="card">
+    <h2>Aperçu du visuel</h2>
+    <div class="preview-box" id="captureArea">
+      <div id="badgePreview" class="badge shape-rect" style="background-color: #00838f; color: #ffffff;">14</div>
+      <div id="destPreview" class="dest-text">Gare de Lyon</div>
+    </div>
+
+    <label style="margin-top:15px;">Télécharger l'image :</label>
+    <div class="flex-group">
+      <button id="btnPNG" class="btn">PNG</button>
+      <button id="btnJPG" class="btn">JPG</button>
+      <button id="btnSVG" class="btn">SVG</button>
+    </div>
+  </div>
+
+  <!-- Sauvegarde & Importation JSON -->
+  <div class="card">
+    <h2>Sauvegarde de la configuration</h2>
+    <button id="btnExportJSON" class="btn">Télécharger le fichier JSON</button>
+    
+    <label style="margin-top:15px;">Charger une configuration JSON :</label>
+    <input type="file" id="importJSON" accept=".json">
+  </div>
+
+  <script>
+    const lineIndex = document.getElementById('lineIndex');
+    const textColor = document.getElementById('textColor');
+    const badgeColor = document.getElementById('badgeColor');
+    const hexInput = document.getElementById('hexInput');
+    const fontSelect = document.getElementById('fontSelect');
+    const shapeSelect = document.getElementById('shapeSelect');
+    const destText = document.getElementById('destText');
+
+    const badgePreview = document.getElementById('badgePreview');
+    const destPreview = document.getElementById('destPreview');
+
+    // Synchronisation dynamique du champ Hex et du Color Picker
+    badgeColor.addEventListener('input', () => {
+      hexInput.value = badgeColor.value;
+      render();
+    });
+
+    hexInput.addEventListener('input', () => {
+      let val = hexInput.value.trim();
+      if (!val.startsWith('#') && val.length === 6) {
+        val = '#' + val;
+      }
+      if (/^#([0-9A-F]{3}){1,2}$/i.test(val)) {
+        badgeColor.value = val;
+        render();
+      }
+    });
+
+    // Mise à jour de l'affichage en temps réel
+    function render() {
+      badgePreview.innerText = lineIndex.value || "1";
+      badgePreview.style.color = textColor.value;
+      badgePreview.style.backgroundColor = badgeColor.value;
+      badgePreview.style.fontFamily = fontSelect.value;
+      badgePreview.className = "badge " + shapeSelect.value;
+
+      destPreview.innerText = destText.value;
+      destPreview.style.fontFamily = fontSelect.value;
+    }
+
+    [lineIndex, textColor, fontSelect, shapeSelect, destText].forEach(el => {
+      el.addEventListener('input', render);
+    });
+
+    // Exportation sous forme d'images
+    document.getElementById('btnPNG').addEventListener('click', () => exportImage('png'));
+    document.getElementById('btnJPG').addEventListener('click', () => exportImage('jpeg'));
+
+    function exportImage(format) {
+      html2canvas(document.getElementById('captureArea')).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL(`image/${format}`);
+        link.download = `bus-${lineIndex.value || 'indice'}.${format}`;
+        link.click();
+      });
+    }
+
+    document.getElementById('btnSVG').addEventListener('click', () => {
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
+          <foreignObject width="100%" height="100%">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              ${document.getElementById('captureArea').outerHTML}
+            </div>
+          </foreignObject>
+        </svg>`;
+      const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `bus-${lineIndex.value || 'indice'}.svg`;
+      link.click();
+    });
+
+    // Sauvegarde et Importation JSON
+    document.getElementById('btnExportJSON').addEventListener('click', () => {
+      const config = {
+        lineIndex: lineIndex.value,
+        textColor: textColor.value,
+        badgeColor: badgeColor.value,
+        fontSelect: fontSelect.value,
+        shapeSelect: shapeSelect.value,
+        destText: destText.value
+      };
+      const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `config-bus-${lineIndex.value || 'indice'}.json`;
+      link.click();
+    });
+
+    document.getElementById('importJSON').addEventListener('change', (e) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const data = JSON.parse(event.target.result);
+        if (data.lineIndex) lineIndex.value = data.lineIndex;
+        if (data.textColor) textColor.value = data.textColor;
+        if (data.badgeColor) {
+          badgeColor.value = data.badgeColor;
+          hexInput.value = data.badgeColor;
+        }
+        if (data.fontSelect) fontSelect.value = data.fontSelect;
+        if (data.shapeSelect) shapeSelect.value = data.shapeSelect;
+        if (data.destText) destText.value = data.destText;
+        render();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+
+    // Lancement au chargement
+    render();
+  </script>
+</body>
+</html>
